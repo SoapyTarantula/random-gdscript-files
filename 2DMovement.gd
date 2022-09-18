@@ -16,9 +16,9 @@ func _process(_delta):
 
 func _physics_process(delta):
 	if !MoveAndCollide:
-		move_and_slide(moveDir.normalized() * movespeed) # this line will throw a "returns a value but is never used" warning in the debugger and I don't fucking know why
+		moveDir = move_and_slide(moveDir.normalized() * movespeed)
 	else:
-		move_and_collide(moveDir.normalized() * movespeed * delta) # same as the above line, what even the fuck
+		moveDir = move_and_collide(moveDir.normalized() * movespeed * delta)
 
 func KeepInsideScreen():
 	position.x = clamp(position.x, 0, screen_size.x)
