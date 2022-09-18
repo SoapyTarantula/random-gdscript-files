@@ -9,18 +9,21 @@ export var ConfineToScreen = true # Limits position to within the viewport
 export var startingPosition = Vector2() # Starting position on screen
 export var player_extents = 0
 export var gravity = 80
-export var jumpStrength = 5000
+export var longJumpGravityMulti = 4 # Gravity multiplier when we hold the jump key
+export var shortJumpGravityMulti = 16 # Gravity multiplier when we're not holding jump
+export var jumpStrength = 10000
 
 var moveDir = Vector2()
 var velocity = Vector2.ZERO # Used for falling and jumping
 var screen_size
 
-# Walmart brand finite state machine lol
+# Walmart brand state machine lol
 var is_falling = false
 var isJumping = false
 
 func _ready():
-	player_extents = $CollisionShape2D.shape.extents
+	if player_extents == 0: # Assuming 0 means we aren't specifying it ourselves
+		player_extents = $CollisionShape2D.shape.extents
 	screen_size = get_viewport().size
 	PlaceAtPoint(Vector2(startingPosition.x, startingPosition.y))
 
@@ -37,9 +40,9 @@ func _physics_process(delta):
 	# enough time falling yet.
 	
 	if Input.is_action_pressed("jump") and !is_falling:
-		velocity.y += gravity * 4 * delta
+		velocity.y += gravity * longJumpGravityMulti * delta
 	else:
-		velocity.y += gravity * 16 * delta
+		velocity.y += gravity * shortJumpGravityMulti * delta
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 	# Handles actually jumping up
