@@ -14,14 +14,15 @@ func RandomVector(xMax: float, yMax: float, zMax: float, isVector3: bool):
 
 	if isVector3:
 		randVec3 = Vector3(randf() * xMax, randf() * yMax, randf() * zMax)
-		randVec3.x = round(randVec3.xMax)
-		randVec3.y = round(randVec3.yMax)
-		randVec3.z = round(randVec3.zMax)
+		randVec3.x = round(randVec3.x)
+		randVec3.y = round(randVec3.y)
+		randVec3.z = round(randVec3.z)
 	else:
 		randVec2 = Vector2(randf() * xMax, randf() * yMax)
-		randVec2.x = round(randVec2.xMax)
+		randVec2.x = round(randVec2.x)
 		randVec2.y = round(randVec2.y)
 	if isVector3:
-		return Vector3(randVec3.xMax, randVec3.yMax, randVec3.zMax)
+		return Vector3(randVec3.x, randVec3.y, randVec3.z)
 	else:
-		return Vector2(randVec2.xMax, randVec2.yMax)
+		return Vector2(randVec2.x, randVec2.y)
+    
