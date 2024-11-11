@@ -34,15 +34,15 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x * look_sens))
 		camera_pivot.rotate_x(deg_to_rad(-event.relative.y * look_sens))
-		camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, deg_to_rad(-89), deg_to_rad(90))
-
+		camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
 func _physics_process(delta):
 	# Handles crouching or sprinting.
 	if Input.is_action_pressed("Crouch"):
 
 		# Crouching
-		current_speed = crouch_speed
+		if is_on_floor():
+			current_speed = crouch_speed # Only adjust the speed if it physically makes sense.
 		camera_pivot.position.y = lerp(camera_pivot.position.y, -0.5, delta * 10)
 
 		standing_collider.disabled = true
@@ -57,7 +57,7 @@ func _physics_process(delta):
 		crouching_collider.disabled = true
 		
 		# Sprinting
-		if Input.is_action_pressed("Sprint"):
+		if Input.is_action_pressed("Sprint") and is_on_floor():
 			current_speed = sprint_speed
 		else:
 			current_speed = walking_speed
